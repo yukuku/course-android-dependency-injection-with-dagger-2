@@ -2,8 +2,8 @@ package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.techyourchance.dagger2course.screens.common.dialogs.ServerErrorDialogFragment
-import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsActivity
+import com.techyourchance.dagger2course.screens.common.ScreensNavigator
+import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.usecases.FetchQuestionsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +16,8 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
 
     private lateinit var viewMvc: QuestionsListViewMvc
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var screensNavigator: ScreensNavigator
 
     private var isDataLoaded = false
 
@@ -26,6 +28,8 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
         setContentView(viewMvc.rootView)
 
         fetchQuestionsUseCase = FetchQuestionsUseCase()
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        screensNavigator = ScreensNavigator(this)
     }
 
     override fun onStart() {
@@ -60,9 +64,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     }
 
     private fun onFetchFailed() {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showServerErrorDialog()
     }
 
     override fun onRefreshClicked() {
@@ -70,6 +72,6 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     }
 
     override fun onQuestionClicked(id: String) {
-        QuestionDetailsActivity.start(this, id)
+        screensNavigator.toQuestionDetails(id)
     }
 }

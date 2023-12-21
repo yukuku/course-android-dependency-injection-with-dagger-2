@@ -21,14 +21,14 @@ class QuestionDetailsViewMvc(
     private val txtQuestionBody: TextView = findViewById(R.id.txt_question_body)
 
     interface Listener {
-        fun onBackPressed()
+        fun onBackClicked()
     }
 
     init {
         // init toolbar
         toolbar.setNavigateUpListener {
             for (listener in listeners) {
-                listener.onBackPressed()
+                listener.onBackClicked()
             }
         }
 

@@ -6,18 +6,14 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import androidx.appcompat.app.AppCompatActivity
-import com.techyourchance.dagger2course.Constants
-import com.techyourchance.dagger2course.networking.StackoverflowApi
-import com.techyourchance.dagger2course.screens.common.dialogs.ServerErrorDialogFragment
+import com.techyourchance.dagger2course.screens.common.ScreensNavigator
+import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.usecases.FetchQuestionDetailsUseCase
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.Listener {
 
@@ -25,6 +21,8 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
 
     private lateinit var viewMvc: QuestionDetailsViewMvc
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+    private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var screensNavigator: ScreensNavigator
 
     private lateinit var questionId: String
 
@@ -34,6 +32,8 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
         setContentView(viewMvc.rootView)
 
         fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase()
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        screensNavigator = ScreensNavigator(this)
 
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
@@ -64,6 +64,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
                     }
                     viewMvc.setQuestionText(html)
                 }
+
                 FetchQuestionDetailsUseCase.Result.Failure -> {
                     onFetchFailed()
                 }
@@ -73,9 +74,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
     }
 
     private fun onFetchFailed() {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showServerErrorDialog()
     }
 
     companion object {
@@ -85,5 +84,9 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
             intent.putExtra(EXTRA_QUESTION_ID, questionId)
             context.startActivity(intent)
         }
+    }
+
+    override fun onBackClicked() {
+        screensNavigator.navigateBack()
     }
 }
