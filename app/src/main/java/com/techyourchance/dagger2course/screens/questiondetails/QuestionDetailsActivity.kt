@@ -5,8 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import androidx.appcompat.app.AppCompatActivity
-import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.common.activities.BaseActivity
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
@@ -30,12 +28,12 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = compositionRoot.viewMvcFactory.createQuestionDetailsViewMvc(null)
+        viewMvc = presentationComponent.viewMvcFactory().createQuestionDetailsViewMvc(null)
         setContentView(viewMvc.rootView)
 
-        fetchQuestionDetailsUseCase = compositionRoot.fetchQuestionDetailsUseCase
-        dialogsNavigator = compositionRoot.dialogsNavigator
-        screensNavigator = compositionRoot.screensNavigator
+        fetchQuestionDetailsUseCase = presentationComponent.fetchQuestionDetailsUseCase()
+        dialogsNavigator = presentationComponent.dialogsNavigator()
+        screensNavigator = presentationComponent.screensNavigator()
 
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!

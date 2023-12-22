@@ -25,10 +25,10 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
     private var isDataLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewMvc = compositionRoot.viewMvcFactory.createQuestionsListViewMvc(container)
-        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
-        dialogsNavigator = compositionRoot.dialogsNavigator
-        screensNavigator = compositionRoot.screensNavigator
+        viewMvc = presentationComponent.viewMvcFactory().createQuestionsListViewMvc(container)
+        fetchQuestionsUseCase = presentationComponent.fetchQuestionsUseCase()
+        dialogsNavigator = presentationComponent.dialogsNavigator()
+        screensNavigator = presentationComponent.screensNavigator()
 
         return viewMvc.rootView
     }
