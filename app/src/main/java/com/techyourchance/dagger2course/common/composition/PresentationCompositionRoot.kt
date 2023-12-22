@@ -1,32 +1,23 @@
 package com.techyourchance.dagger2course.common.composition
 
-import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.common.viewmvcs.ViewMvcFactory
-import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.usecases.FetchQuestionDetailsUseCase
 import com.techyourchance.dagger2course.usecases.FetchQuestionsUseCase
 
-class ActivityCompositionRoot(
-    private val activity: AppCompatActivity,
-    private val appCompositionRoot: AppCompositionRoot,
-) {
+class PresentationCompositionRoot(private val activityCompositionRoot: ActivityCompositionRoot) {
 
-    val layoutInflater get() = activity.layoutInflater
+    private val layoutInflater get() = activityCompositionRoot.layoutInflater
 
-    val screensNavigator by lazy {
-        ScreensNavigator(activity)
-    }
+    private val fragmentManager get() = activityCompositionRoot.fragmentManager
 
-    val fragmentManager = activity.supportFragmentManager
+    private val stackoverflowApi get() = activityCompositionRoot.stackoverflowApi
 
-    val dialogsNavigator by lazy {
-        DialogsNavigator(fragmentManager)
-    }
+    val screensNavigator get() = activityCompositionRoot.screensNavigator
 
     val viewMvcFactory get() = ViewMvcFactory(layoutInflater)
 
-    val stackoverflowApi get() = appCompositionRoot.stackoverflowApi
+    val dialogsNavigator get() = DialogsNavigator(fragmentManager)
 
     val fetchQuestionsUseCase get() = FetchQuestionsUseCase(stackoverflowApi)
 
