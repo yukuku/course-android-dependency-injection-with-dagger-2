@@ -1,4 +1,4 @@
-package com.techyourchance.dagger2course.common.composition
+package com.techyourchance.dagger2course.common.composition.activity
 
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager

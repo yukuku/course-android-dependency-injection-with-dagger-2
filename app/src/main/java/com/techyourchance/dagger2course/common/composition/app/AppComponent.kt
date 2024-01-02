@@ -1,4 +1,4 @@
-package com.techyourchance.dagger2course.common.composition
+package com.techyourchance.dagger2course.common.composition.app
 
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import dagger.Component

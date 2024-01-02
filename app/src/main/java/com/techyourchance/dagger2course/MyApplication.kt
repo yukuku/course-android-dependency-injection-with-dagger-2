@@ -1,9 +1,9 @@
 package com.techyourchance.dagger2course
 
 import android.app.Application
-import com.techyourchance.dagger2course.common.composition.AppComponent
-import com.techyourchance.dagger2course.common.composition.AppModule
-import com.techyourchance.dagger2course.common.composition.DaggerAppComponent
+import com.techyourchance.dagger2course.common.composition.app.AppComponent
+import com.techyourchance.dagger2course.common.composition.app.AppModule
+import com.techyourchance.dagger2course.common.composition.app.DaggerAppComponent
 
 class MyApplication : Application() {
 

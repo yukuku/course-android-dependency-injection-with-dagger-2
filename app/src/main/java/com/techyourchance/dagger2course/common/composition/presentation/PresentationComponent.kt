@@ -1,4 +1,4 @@
-package com.techyourchance.dagger2course.common.composition
+package com.techyourchance.dagger2course.common.composition.presentation
 
 import com.techyourchance.dagger2course.common.viewmvcs.ViewMvcFactory
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
@@ -6,7 +6,6 @@ import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.usecases.FetchQuestionDetailsUseCase
 import com.techyourchance.dagger2course.usecases.FetchQuestionsUseCase
 import dagger.Component
-import dagger.Provides
 
 @Component(
     modules = [PresentationModule::class],

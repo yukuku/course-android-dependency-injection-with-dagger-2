@@ -1,6 +1,7 @@
-package com.techyourchance.dagger2course.common.composition
+package com.techyourchance.dagger2course.common.composition.activity
 
 import androidx.appcompat.app.AppCompatActivity
+import com.techyourchance.dagger2course.common.composition.app.AppComponent
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import dagger.Module
 import dagger.Provides
