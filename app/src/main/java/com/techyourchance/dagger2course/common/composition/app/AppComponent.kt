@@ -7,6 +7,7 @@ import retrofit2.Retrofit
 @Component(
     modules = [AppModule::class],
 )
+@AppScope
 interface AppComponent {
 
     fun retrofit(): Retrofit
