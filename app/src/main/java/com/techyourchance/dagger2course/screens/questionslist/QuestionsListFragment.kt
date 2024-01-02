@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.techyourchance.dagger2course.common.fragments.BaseFragment
+import com.techyourchance.dagger2course.common.viewmvcs.ViewMvcFactory
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.usecases.FetchQuestionsUseCase
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -17,19 +19,19 @@ import kotlinx.coroutines.launch
 class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
+    @Inject lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    @Inject lateinit var dialogsNavigator: DialogsNavigator
+    @Inject lateinit var screensNavigator: ScreensNavigator
+
     private lateinit var viewMvc: QuestionsListViewMvc
-    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    private lateinit var dialogsNavigator: DialogsNavigator
-    private lateinit var screensNavigator: ScreensNavigator
 
     private var isDataLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewMvc = presentationComponent.viewMvcFactory().createQuestionsListViewMvc(container)
-        fetchQuestionsUseCase = presentationComponent.fetchQuestionsUseCase()
-        dialogsNavigator = presentationComponent.dialogsNavigator()
-        screensNavigator = presentationComponent.screensNavigator()
+        presentationComponent.inject(this)
 
+        viewMvc = viewMvcFactory.createQuestionsListViewMvc(container)
         return viewMvc.rootView
     }
 

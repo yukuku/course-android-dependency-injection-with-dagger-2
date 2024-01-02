@@ -6,9 +6,11 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import com.techyourchance.dagger2course.common.activities.BaseActivity
+import com.techyourchance.dagger2course.common.viewmvcs.ViewMvcFactory
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.usecases.FetchQuestionDetailsUseCase
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -19,21 +21,21 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
+    @Inject lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+    @Inject lateinit var dialogsNavigator: DialogsNavigator
+    @Inject lateinit var screensNavigator: ScreensNavigator
+
     private lateinit var viewMvc: QuestionDetailsViewMvc
-    private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
-    private lateinit var dialogsNavigator: DialogsNavigator
-    private lateinit var screensNavigator: ScreensNavigator
 
     private lateinit var questionId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = presentationComponent.viewMvcFactory().createQuestionDetailsViewMvc(null)
-        setContentView(viewMvc.rootView)
+        presentationComponent.inject(this)
 
-        fetchQuestionDetailsUseCase = presentationComponent.fetchQuestionDetailsUseCase()
-        dialogsNavigator = presentationComponent.dialogsNavigator()
-        screensNavigator = presentationComponent.screensNavigator()
+        viewMvc = viewMvcFactory.createQuestionDetailsViewMvc(null)
+        setContentView(viewMvc.rootView)
 
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
