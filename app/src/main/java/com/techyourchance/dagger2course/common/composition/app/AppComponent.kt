@@ -1,8 +1,8 @@
 package com.techyourchance.dagger2course.common.composition.app
 
-import com.techyourchance.dagger2course.networking.StackoverflowApi
+import com.techyourchance.dagger2course.common.composition.activity.ActivityComponent
+import com.techyourchance.dagger2course.common.composition.activity.ActivityModule
 import dagger.Component
-import retrofit2.Retrofit
 
 @Component(
     modules = [AppModule::class],
@@ -10,7 +10,5 @@ import retrofit2.Retrofit
 @AppScope
 interface AppComponent {
 
-    fun retrofit(): Retrofit
-
-    fun stackoverflowApi(): StackoverflowApi
+    fun createActivityComponent(activityModule: ActivityModule): ActivityComponent
 }
