@@ -2,9 +2,7 @@ package com.techyourchance.dagger2course.screens.questiondetails
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import com.techyourchance.dagger2course.common.activities.BaseActivity
 import com.techyourchance.dagger2course.common.viewmvcs.ViewMvcFactory
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
@@ -58,13 +56,7 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
             viewMvc.showProgressIndication()
             when (val result = fetchQuestionDetailsUseCase.fetchQuestionDetails(questionId)) {
                 is FetchQuestionDetailsUseCase.Result.Success -> {
-                    val html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Html.fromHtml(result.question.body, Html.FROM_HTML_MODE_LEGACY)
-                    } else {
-                        @Suppress("DEPRECATION")
-                        Html.fromHtml(result.question.body)
-                    }
-                    viewMvc.setQuestionText(html)
+                    viewMvc.setQuestion(result.question)
                 }
 
                 FetchQuestionDetailsUseCase.Result.Failure -> {

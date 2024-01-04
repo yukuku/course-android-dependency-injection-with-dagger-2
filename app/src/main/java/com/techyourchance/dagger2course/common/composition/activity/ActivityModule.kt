@@ -11,6 +11,9 @@ class ActivityModule(
 ) {
 
     @Provides
+    fun activity() = activity
+
+    @Provides
     fun layoutInflater() = activity.layoutInflater
 
     @Provides
