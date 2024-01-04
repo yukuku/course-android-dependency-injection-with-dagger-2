@@ -1,9 +1,10 @@
 package com.techyourchance.dagger2course.screens.common.dialogs
 
 import androidx.fragment.app.FragmentManager
+import javax.inject.Inject
 
-class DialogsNavigator(
-    val fragmentManager: FragmentManager,
+class DialogsNavigator @Inject constructor(
+    private val fragmentManager: FragmentManager,
 ) {
     fun showServerErrorDialog() {
         fragmentManager.beginTransaction()

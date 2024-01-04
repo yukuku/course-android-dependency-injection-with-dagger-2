@@ -5,7 +5,7 @@ import com.techyourchance.dagger2course.screens.questionslist.QuestionsListFragm
 import dagger.Subcomponent
 
 @Subcomponent(
-    modules = [PresentationModule::class, UseCasesModule::class],
+    modules = [],
 )
 @PresentationScope
 interface PresentationComponent {

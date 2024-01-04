@@ -11,7 +11,6 @@ class ActivityModule(
 ) {
 
     @Provides
-    @ActivityScope
     fun layoutInflater() = activity.layoutInflater
 
     @Provides
@@ -19,6 +18,5 @@ class ActivityModule(
     fun screensNavigator() = ScreensNavigator(activity)
 
     @Provides
-    @ActivityScope
     fun fragmentManager() = activity.supportFragmentManager
 }
